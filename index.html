@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="懷孕指南">
+<meta name="theme-color" content="#3D2B1F">
+<title>懷孕完全指南</title>
+<style>
+:root{
+  --bg:#F5F0EB;--card:#fff;--linen:#EDE5D8;--tan:#C4A882;
+  --brown:#7A5C3A;--dk:#3D2B1F;
+  --sage:#7A8C6E;--sageL:#D6E0CF;
+  --terra:#B5714F;--terraL:#F0DDD4;
+  --gold:#A67C52;--goldL:#F2E8D8;
+  --blue:#6B8FA8;--blueL:#DDE8F0;
+  --soft:#7A5C3A;--border:#D4C4B0;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--dk);
+  min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+button{font-family:Georgia,serif;cursor:pointer;border:none;background:none}
+input{font-family:Georgia,serif}
+
+/* ── Header ── */
+#hdr{background:var(--dk);padding:20px 20px 14px;text-align:center}
+#hdr h1{color:#fff;font-size:20px;font-weight:bold;margin:8px 0 0}
+#hdr p{color:var(--tan);font-size:11px;margin:5px 0 0}
+#conn-area{margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+#conn-pill{display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px}
+#cdot{width:7px;height:7px;border-radius:50%;background:#A67C52;display:inline-block;flex-shrink:0}
+#clbl{font-size:10px;color:rgba(255,255,255,.85)}
+#rbtn{font-size:10px;color:var(--tan);background:rgba(255,255,255,.15);
+  border-radius:12px;padding:3px 10px;display:none;margin-left:2px}
+#prog-wrap{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);border-radius:20px;padding:5px 14px}
+#prog-wrap .pl{font-size:11px;color:var(--tan)}
+#pbg{width:80px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+#pf{height:100%;border-radius:3px;background:var(--tan);width:0%;transition:width .35s}
+#pc{font-size:11px;color:#fff;font-weight:bold}
+
+/* ── Tabs ── */
+#tabs{display:flex;background:#fff;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:20;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tb{flex:1;padding:11px 2px;font-size:11px;color:var(--soft);
+  border-bottom:2px solid transparent;transition:all .2s}
+.tb.on{color:var(--dk);font-weight:600;border-bottom-color:var(--brown)}
+
+/* ── Main ── */
+#main{max-width:680px;margin:0 auto;padding-bottom:60px}
+.tp{display:none}.tp.on{display:block}
+
+/* ── Pill nav ── */
+#pills{display:flex;gap:8px;padding:14px 14px 0;overflow-x:auto;scrollbar-width:none}
+#pills::-webkit-scrollbar{display:none}
+.pl-btn{flex-shrink:0;border:1.5px solid var(--border);border-radius:10px;background:#fff;
+  color:var(--soft);font-size:10px;font-weight:600;padding:8px 10px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .2s}
+.pl-btn .ic{font-size:16px}
+.pl-btn .wk{opacity:.7;font-size:9px}
+.pdots{display:flex;gap:2px;margin-top:2px}
+.pdots i{display:inline-block;width:4px;height:4px;border-radius:50%}
+
+/* ── Card ── */
+.card{border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 14px rgba(0,0,0,.06);border:1px solid var(--border);margin:12px 14px}
+.sh{padding:14px 20px;color:#fff}
+.sh-row{display:flex;justify-content:space-between;align-items:center}
+.sh h2{font-size:17px;font-weight:bold}
+.sh .sub{opacity:.8;font-size:12px;margin-top:1px}
+.pmini{min-width:100px}
+.pml{font-size:10px;opacity:.8;text-align:right;margin-bottom:4px}
+.pr{display:flex;align-items:center;gap:8px}
+.pt{flex:1;height:5px;border-radius:3px;overflow:hidden}
+.pfi{height:100%;border-radius:3px;transition:width .35s}
+.pco{font-size:11px;min-width:36px}
+
+/* ── Section ── */
+.sec{background:var(--card)}
+.sec-t{padding:9px 18px 2px;font-size:10px;font-weight:bold;color:var(--brown);
+  letter-spacing:.8px;text-transform:uppercase;
+  display:flex;justify-content:space-between;align-items:center}
+.sec-b{padding:2px 18px 12px}
+.dvd{height:1px;background:var(--border)}
+
+/* ── Check / shot / cost ── */
+.ci{display:flex;gap:7px;align-items:flex-start;padding:8px 0}
+.ci:not(:last-child){border-bottom:1px solid var(--border)}
+.ci strong{font-size:13px;display:block}
+.ci small{font-size:11px;color:var(--soft);margin-top:2px;display:block}
+.si{padding:8px 0}.si:not(:last-child){border-bottom:1px solid var(--border)}
+.sn{font-weight:bold;font-size:13px;color:var(--terra)}
+.sk{font-size:11px;color:var(--soft);margin-top:2px}
+.ki{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0}
+.ki:not(:last-child){border-bottom:1px solid var(--tan)}
+.kl{flex:1;font-size:12px}
+.chip{font-size:9px;padding:1px 7px;border-radius:20px;margin-left:5px;font-weight:bold}
+.ka{font-size:12px;font-weight:bold;flex-shrink:0;margin-left:8px}
+
+/* ── Task rows (normal) ── */
+.tr{display:flex;gap:10px;padding:10px 18px;cursor:pointer;
+  align-items:flex-start;transition:background .2s;user-select:none}
+.tr:not(:last-child){border-bottom:1px solid var(--tan)}
+.cb-box{width:22px;height:22px;border-radius:6px;flex-shrink:0;
+  border:2px solid var(--border);background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;pointer-events:none}/* pointer-events:none → parent row handles click */
+.tt{font-size:12px;line-height:1.6;flex:1;transition:all .2s}
+.tt.done{text-decoration:line-through;color:var(--soft)}
+.dl{font-size:10px;font-weight:bold;flex-shrink:0;margin-top:2px}
+
+/* ── Task rows (edit mode) ── */
+.tr-edit{display:flex;gap:8px;padding:9px 18px;align-items:center}
+.tr-edit:not(:last-child){border-bottom:1px solid var(--tan)}
+.t-input{flex:1;font-size:12px;border:1px solid var(--tan);
+  border-radius:8px;padding:5px 9px;color:var(--dk);background:#fff;outline:none}
+.del-btn{width:28px;height:28px;border-radius:50%;background:var(--terraL);
+  color:var(--terra);font-size:15px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;line-height:1}
+.add-row{display:flex;gap:8px;padding:10px 18px;border-top:1px dashed var(--tan)}
+.add-inp{flex:1;font-size:12px;border:1px solid var(--tan);
+  border-radius:8px;padding:6px 10px;color:var(--dk);background:#fff;outline:none}
+.add-btn{background:var(--brown);color:#fff;border-radius:8px;
+  padding:6px 14px;font-size:12px;flex-shrink:0}
+.edit-toggle{font-size:11px;color:var(--brown);background:var(--linen);
+  border:1px solid var(--tan);border-radius:12px;padding:3px 10px}
+.edit-toggle.on{background:var(--brown);color:#fff;border-color:var(--brown)}
+
+.note-bar{padding:12px 18px;border-top:1px solid var(--tan);
+  font-size:12px;color:var(--soft);line-height:1.7}
+
+/* ── Checklist tab ── */
+#cl-wrap{padding:14px}
+.sum{border-radius:14px;background:var(--dk);padding:18px 20px;margin-bottom:14px;color:#fff}
+.sum-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sum-num{font-size:26px;font-weight:bold}
+.sum-of{font-size:10px;color:var(--tan)}
+.big-pg{height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.big-pf{height:100%;border-radius:4px;
+  background:linear-gradient(90deg,var(--tan),var(--sage));transition:width .4s}
+.sum-ft{margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+.sg{border-radius:14px;overflow:hidden;margin-bottom:12px;
+  border:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.gh{padding:12px 16px}
+.gh-row{display:flex;justify-content:space-between;align-items:center}
+.g-info{display:flex;align-items:center;gap:8px}
+.g-ic{font-size:18px}
+.g-nm{font-size:14px;font-weight:bold}
+.g-db{font-size:11px;margin-left:6px;color:var(--sage)}
+.g-wk{font-size:10px;margin-top:1px}
+.gt{background:#fff}
+.clt{display:flex;gap:12px;padding:12px 16px;cursor:pointer;
+  align-items:flex-start;transition:background .2s;user-select:none}
+.clt:not(:last-child){border-bottom:1px solid var(--border)}
+.clt .tt{font-size:13px}
+.clear-btn{display:block;margin:8px auto 0;border:1px solid var(--border);
+  border-radius:8px;padding:8px 18px;font-size:12px;color:var(--soft)}
+
+/* ── Centers ── */
+#ct-wrap{padding:14px}
+#ct-wrap h2{font-size:15px;text-align:center;margin:14px 0 4px;color:var(--dk)}
+.cc{border-radius:16px;overflow:hidden;margin-bottom:20px;
+  border:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.ch{padding:16px 20px;color:#fff}
+.cn{font-size:17px;font-weight:bold;margin-bottom:3px}
+.cs{font-size:12px;opacity:.85;margin-left:6px}
+.ca{font-size:11px;opacity:.85;margin-bottom:6px}
+.ctag{background:rgba(255,255,255,.2);color:#fff;font-size:10px;
+  padding:2px 10px;border-radius:20px;display:inline-block;margin-right:4px}
+.ce{padding:10px 18px;border-bottom:1px solid var(--border)}
+.rm{display:flex;justify-content:space-between;padding:7px 0}
+.rm:not(:last-child){border-bottom:1px solid var(--border)}
+.sbox{border-radius:8px;padding:9px 12px;font-size:12px;font-weight:bold;margin:12px 18px}
+.vs{border-radius:14px;background:#fff;padding:18px;border:1px solid var(--border)}
+.vs h3{font-size:14px;text-align:center;margin:0 0 12px;color:var(--dk)}
+.vs-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vs-c{border-radius:10px;padding:12px}
+
+/* ── Costs ── */
+#co-wrap{padding:14px}
+#co-wrap h2{font-size:16px;text-align:center;margin:14px 0 0;color:var(--dk)}
+.tot{border-radius:14px;background:var(--dk);padding:20px 18px;text-align:center;margin:14px 0;color:#fff}
+.cl{border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.cr{padding:13px 18px}.cr:not(:last-child){border-bottom:1px solid var(--border)}
+.cr-in{display:flex;justify-content:space-between;align-items:flex-start}
+.cr-bar{margin-top:7px;height:3px;background:var(--linen);border-radius:2px;overflow:hidden}
+.cr-bf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--terra),var(--gold))}
+.tot-row{padding:15px 18px;background:var(--terraL);
+  display:flex;justify-content:space-between;align-items:center}
+.fin{margin-top:12px;border-radius:12px;background:var(--linen);
+  padding:14px 16px;border:1px solid var(--tan)}
+.fin h4{font-size:13px;font-weight:bold;color:var(--dk);margin-bottom:8px}
+.ft{display:flex;gap:8px;margin-bottom:6px;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <svg width="200" height="44" viewBox="0 0 220 52" fill="none"
+       style="opacity:.55;display:block;margin:0 auto">
+    <path d="M110 50 Q108 32 110 10" stroke="#C4A882" stroke-width="1.2" fill="none"/>
+    <path d="M110 38 Q92 32 82 22" stroke="#C4A882" stroke-width="1" fill="none"/>
+    <path d="M110 28 Q95 24 88 16" stroke="#C4A882" stroke-width="1" fill="none"/>
+    <path d="M110 38 Q128 32 138 22" stroke="#C4A882" stroke-width="1" fill="none"/>
+    <path d="M110 28 Q125 24 132 16" stroke="#C4A882" stroke-width="1" fill="none"/>
+    <ellipse cx="80" cy="20" rx="7" ry="3.5" fill="none" stroke="#C4A882" stroke-width=".9" transform="rotate(-30 80 20)"/>
+    <ellipse cx="86" cy="14" rx="6" ry="3" fill="none" stroke="#C4A882" stroke-width=".9" transform="rotate(-40 86 14)"/>
+    <ellipse cx="140" cy="20" rx="7" ry="3.5" fill="none" stroke="#C4A882" stroke-width=".9" transform="rotate(30 140 20)"/>
+    <ellipse cx="134" cy="14" rx="6" ry="3" fill="none" stroke="#C4A882" stroke-width=".9" transform="rotate(40 134 14)"/>
+    <circle cx="82" cy="22" r="1.8" fill="none" stroke="#C4A882" stroke-width=".8"/>
+    <circle cx="138" cy="22" r="1.8" fill="none" stroke="#C4A882" stroke-width=".8"/>
+  </svg>
+  <h1>懷孕完全指南</h1>
+  <p>從懷孕到生產 · 每個階段的檢查、開銷與先生的責任</p>
+  <div id="conn-area">
+    <div id="conn-pill">
+      <span id="cdot"></span>
+      <span id="clbl">連線中...</span>
+      <button id="rbtn" onclick="reconnect()">↺ 重新連線</button>
+    </div>
+    <div id="prog-wrap">
+      <span class="pl">先生待辦進度</span>
+      <div id="pbg"><div id="pf"></div></div>
+      <span id="pc">0/0</span>
+    </div>
+  </div>
+</div>
+
+<div id="tabs">
+  <button class="tb on" onclick="goTab('stages')">孕程階段</button>
+  <button class="tb"    onclick="goTab('checklist')">待辦清單</button>
+  <button class="tb"    onclick="goTab('centers')">月子中心</button>
+  <button class="tb"    onclick="goTab('costs')">費用試算</button>
+</div>
+
+<div id="main">
+  <div id="tp-stages"    class="tp on"></div>
+  <div id="tp-checklist" class="tp"></div>
+  <div id="tp-centers"   class="tp"></div>
+  <div id="tp-costs"     class="tp"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════════════════════
+var FB = "https://pregnancy-guide-42818-default-rtdb.firebaseio.com";
+
+// ════════════════════════════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════════════════════════════
+var STAGES = [
+  { id:"1", period:"懷孕初期", weeks:"第 1–12 週", icon:"🌱", accent:"#7A8C6E", accentL:"#D6E0CF",
+    checks:[
+      {item:"第一次產檢", detail:"驗孕、血液檢查、確認胎心音"},
+      {item:"抽血基本項目", detail:"血型/RH陰性/B肝/梅毒/HIV/德國麻疹/地中海貧血/尿液常規"},
+      {item:"NT頸部透明帶超音波", detail:"11–13週，評估染色體風險"},
+      {item:"初期唐氏症篩檢", detail:"可選 NIPT 非侵入性基因篩檢"},
+      {item:"子宮頸抹片", detail:"例行婦科篩檢"}
+    ],
+    shots:[{name:"無強制疫苗", note:"建議確認德國麻疹抗體是否足夠（懷孕前接種）"}],
+    costs:[
+      {label:"健保產檢（共14次）", amount:"免費", type:"gov"},
+      {label:"NIPT 非侵入性基因篩檢", amount:"$15,000–38,000（補助$2,200）", type:"opt"},
+      {label:"孕知因套組（SMA/FXS）", amount:"約 $6,000", type:"opt"},
+      {label:"孕婦維他命、葉酸", amount:"$300–800 / 月", type:"must"}
+    ],
+    defTasks:["一起去做第一次產檢吧！聽到胎心音的瞬間，你一定會感動到 ❤️","花點時間研究 NIPT 和孕知因篩檢，和太太一起討論，她會覺得你很用心","每天輕輕提醒太太吃葉酸和孕婦維他命，小小的關心讓她非常暖心","查查哪些食物孕期要避開，幫她把危險食物從冰箱清掉，守護她的飲食安全","孕吐很辛苦，準備薑糖、清淡食物和保濕唇膏放在她身邊，讓她知道你都想到了"],
+    note:"孕吐高峰期，太太非常需要體貼，少讓她接觸油煙與強烈氣味。"
+  },
+  { id:"2", period:"懷孕中期", weeks:"第 13–27 週", icon:"🌿", accent:"#A67C52", accentL:"#F2E8D8",
+    checks:[
+      {item:"常規產檢（每4週一次）", detail:"量血壓、體重、胎心音、尿液"},
+      {item:"子癲前症篩檢", detail:"依醫師建議，評估妊娠高血壓風險"},
+      {item:"第一/二孕期唐氏症篩檢", detail:"11–13週 / 15–18週，各約$2,000–3,000"},
+      {item:"羊水晶片分析", detail:"34歲以上高齡產婦，$18,000–28,000"},
+      {item:"高層次超音波（自費）", detail:"20–24週，詳細器官檢查，$3,000–8,000"},
+      {item:"妊娠糖尿病篩檢（OGTT）", detail:"24–28週，健保給付"}
+    ],
+    shots:[{name:"流感疫苗", note:"建議接種，孕期免疫力較弱"}],
+    costs:[
+      {label:"高層次超音波", amount:"$3,000–8,000", type:"opt"},
+      {label:"妊娠糖尿病篩檢", amount:"健保給付", type:"gov"},
+      {label:"子癲前症/唐氏症篩檢", amount:"$2,000–3,000 各", type:"opt"},
+      {label:"孕婦裝 + 托腹帶", amount:"$3,500–9,500", type:"must"}
+    ],
+    defTasks:["一起去看高層次超音波！親眼看到寶寶的每個器官，你會更真實感受到他的存在","OGTT 糖水測試前一天，幫太太準備清淡晚餐，陪她放輕鬆","開始研究嬰兒用品吧！列個清單、主動提議一起去逛，她會很開心","陪太太一起上媽媽教室，你學到的知識以後都派得上用場，一起當稱職父母","太太的腰和腳踝最需要你的手，每天幫她按個幾分鐘，這是最溫暖的陪伴"],
+    note:"孕中期最舒適，適合一起出遊、拍孕婦寫真，留下珍貴回憶！"
+  },
+  { id:"3", period:"懷孕晚期", weeks:"第 28–40 週", icon:"🍂", accent:"#B5714F", accentL:"#F0DDD4",
+    checks:[
+      {item:"產檢頻率增加", detail:"28週起每2週，36週起每週"},
+      {item:"乙型鏈球菌篩檢（GBS）", detail:"35–37週，陰道棉棒採樣"},
+      {item:"胎兒生長評估超音波", detail:"評估胎兒體重與羊水量"},
+      {item:"胎動監測（NST）", detail:"36週後，監測胎兒心跳反應"},
+      {item:"待產住院評估", detail:"宮縮監測、內診評估子宮頸熟化"}
+    ],
+    shots:[
+      {name:"百日咳疫苗（Tdap）", note:"27–36週，$1,800–2,400；先生也建議接種！"},
+      {name:"RSV 疫苗（新）", note:"$8,000，保護新生兒呼吸道（28–36週）"},
+      {name:"流感疫苗", note:"若未於中期接種，公費或自費皆可"}
+    ],
+    costs:[
+      {label:"百日咳疫苗 Tdap", amount:"$1,800–2,400", type:"must"},
+      {label:"RSV 疫苗（自費）", amount:"$8,000", type:"opt"},
+      {label:"待產包（媽媽＋寶寶）", amount:"$3,000–8,000", type:"must"},
+      {label:"嬰兒用品（床/推車/揹巾）", amount:"$20,000–60,000", type:"must"},
+      {label:"吸奶器（自費）", amount:"$3,000–8,000", type:"opt"}
+    ],
+    defTasks:["月子中心現在就要訂了！主動打電話、帶太太去參觀，讓她知道你有在為她認真規劃","練習開車去醫院的路線，計時一下，關鍵時刻才能沉穩帶她出發","去接種百日咳疫苗 Tdap，這是你送給寶寶的第一份保護禮物","了解真假宮縮的差別和破水的應對方式，讓太太知道你已經準備好了","把汽車安全座椅裝好，讓寶寶有個最安全的第一次回家路","去問一下公司陪產假怎麼申請，這段時間太太最需要你在身邊陪著她"],
+    note:"先生必須隨時手機暢通、不喝酒，確保第一時間能送太太去醫院！"
+  },
+  { id:"4", period:"生產階段", weeks:"住院 3–7 天", icon:"🌾", accent:"#6B8FA8", accentL:"#DDE8F0",
+    checks:[
+      {item:"產前胎心音監測", detail:"住院待產期間持續監測"},
+      {item:"無痛分娩評估", detail:"自費，事先告知婦產科"},
+      {item:"新生兒臍帶血採集", detail:"自費，需事先預約（可選）"}
+    ],
+    shots:[
+      {name:"無痛分娩（硬脊膜外麻醉）", note:"$6,000–15,000 自費"},
+      {name:"新生兒 B肝疫苗", note:"公費，出生24小時內施打"},
+      {name:"新生兒 K1 維他命注射", note:"公費，預防出血症"}
+    ],
+    costs:[
+      {label:"自然產住院費", amount:"$3,000–5,000", type:"must"},
+      {label:"無痛分娩", amount:"$6,000–15,000", type:"opt"},
+      {label:"剖腹產", amount:"$30,000–60,000", type:"must"},
+      {label:"剖腹後止痛（PCA）", amount:"$9,000–15,000", type:"opt"},
+      {label:"住院費", amount:"$2,000–12,000/天", type:"must"}
+    ],
+    defTasks:["全程陪在太太身邊，握緊她的手，讓她感受到你一直都在 🤝","記得幫她計時宮縮的間隔，適時告訴護理師，你是她最好的守護者","太太嘴唇乾了就幫她塗保濕棒、補充水分，這些小細節她都會記在心裡","把寶寶出生的好消息告訴雙方家人，讓大家都感受到這份喜悅","一定要拍下寶寶出生的第一刻，這是你們一生中最珍貴的畫面 📸","出生後 30 天內完成出生登記，替太太省一件心，她會非常感謝你"],
+    note:"先生是太太最重要的精神支柱，握緊她的手，這一刻你們永遠不會忘記。"
+  },
+  { id:"5", period:"月子期", weeks:"第 1–6 週", icon:"🌼", accent:"#7A5C3A", accentL:"#EDE5D8",
+    checks:[
+      {item:"產後2週回診", detail:"傷口復原、惡露、子宮收縮"},
+      {item:"產後6週全面回診", detail:"子宮、骨盆底肌評估、情緒篩檢"},
+      {item:"新生兒黃疸監測", detail:"出院後追蹤，必要時照光治療"},
+      {item:"新生兒聽力篩檢", detail:"醫院出生前完成"},
+      {item:"新生兒代謝疾病篩檢", detail:"出生48小時後採足跟血"}
+    ],
+    shots:[
+      {name:"新生兒：卡介苗 BCG", note:"公費，出生後接種"},
+      {name:"媽媽：德國麻疹疫苗", note:"若抗體不足，產後接種，哺乳期亦可"}
+    ],
+    costs:[
+      {label:"月子中心（20–25天）", amount:"$120,000–185,000", type:"must"},
+      {label:"泌乳師費用", amount:"$1,000–1,500 / 堂", type:"must"},
+      {label:"新生兒自費疫苗（第一年）", amount:"$5,000–10,000", type:"must"},
+      {label:"哺乳相關用品", amount:"$3,000–10,000", type:"must"}
+    ],
+    defTasks:["每天去月子中心陪她，就算只是靜靜坐在旁邊，對她來說意義非凡","學會換尿布、泡奶和安撫哭鬧，你會發現自己比想像中更厲害，寶寶也需要你","出生後 10 天內辦完出生登記和育兒補助申請，替家裡爭取每一分應得的資源","申請勞保生育給付，這筆錢是你們家應得的，記得主動去辦","多留意太太的情緒，產後憂鬱比想像的更常見，你的陪伴是最好的療癒","夜間哺乳很累，主動說『我來沖奶』或『我來哄』，這份心意她會永遠記得 💕"],
+    note:"月子期是夫妻最重要的磨合期，多說謝謝、多給擁抱，少批評少挑剔。"
+  }
+];
+
+var COSTS_DATA = [
+  {cat:"NIPT+孕知因+高層次超音波",lo:24000,hi:49800,note:"已含政府補助扣除"},
+  {cat:"其他自費篩檢（唐氏/羊水等）",lo:2000,hi:31000,note:"視個人選擇"},
+  {cat:"RSV疫苗+百日咳疫苗",lo:9800,hi:10400,note:"保護寶寶"},
+  {cat:"孕期用品",lo:5000,hi:15000,note:"維他命、孕婦裝、托腹帶等"},
+  {cat:"生產住院費（含無痛分娩）",lo:9000,hi:35000,note:"自然產；剖腹另計"},
+  {cat:"嬰兒用品採購",lo:20000,hi:60000,note:"床、推車、揹巾、奶瓶等"},
+  {cat:"月子中心（20–25天）",lo:120000,hi:185000,note:"林新精緻到必樂芙B房型"},
+  {cat:"泌乳師費用",lo:3000,hi:9000,note:"約3–6堂"},
+  {cat:"新生兒自費疫苗（第一年）",lo:5000,hi:10000,note:"輪狀、肺炎鏈球菌等"},
+  {cat:"哺乳相關用品",lo:3000,hi:10000,note:"吸乳器、哺乳枕、哺乳衣"}
+];
+
+// ════════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════════
+var S = {
+  tab:"stages", si:0,
+  checked:{},       // taskId → true/false
+  custom:{},        // stageId → [{id,text},...]
+  editId:null,      // stageId currently in edit mode
+  timer:null
+};
+
+// ════════════════════════════════════════════════════════════════
+//  TASK HELPERS
+// ════════════════════════════════════════════════════════════════
+function getTasks(sid) {
+  if (S.custom[sid] && S.custom[sid].length > 0) { return S.custom[sid]; }
+  var st = STAGES.filter(function(x){ return x.id===sid; })[0];
+  if (!st) { return []; }
+  return st.defTasks.map(function(t,i){ return {id:"s"+sid+"t"+i, text:t}; });
+}
+
+function countAll() {
+  var d=0, t=0;
+  STAGES.forEach(function(st){
+    getTasks(st.id).forEach(function(task){
+      t++;
+      if (S.checked[task.id]) { d++; }
+    });
+  });
+  return {d:d, t:t};
+}
+
+function newId() {
+  return "u" + Date.now().toString(36) + Math.floor(Math.random()*1000).toString(36);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  FIREBASE  (consistent paths)
+//  /checklist/{taskId}   → boolean
+//  /custom/{stageId}     → [{id,text},...]
+// ════════════════════════════════════════════════════════════════
+function fbPoll() {
+  // Read both checklist and custom tasks in one request from root
+  fetch(FB + "/.json")
+    .then(function(r){
+      if (!r.ok) { throw new Error("HTTP " + r.status); }
+      return r.json();
+    })
+    .then(function(data){
+      S.checked = (data && data.checklist) ? data.checklist : {};
+      S.custom   = (data && data.custom)    ? data.custom    : {};
+      setConn("connected");
+      renderAll();
+    })
+    .catch(function(e){
+      console.log("poll error", e);
+      setConn("error");
+    });
+}
+
+function fbSetChecked(id, val) {
+  var url = FB + "/checklist/" + id + ".json";
+  var body = val ? "true" : "null";  // null removes the key when unchecked
+  fetch(url, {
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body:body
+  }).catch(function(){});
+}
+
+function fbSetTasks(sid) {
+  var tasks = S.custom[sid] || null;
+  fetch(FB + "/custom/" + sid + ".json", {
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(tasks)
+  }).catch(function(){});
+}
+
+function fbClearAll() {
+  fetch(FB + "/checklist.json", {
+    method:"PUT",headers:{"Content-Type":"application/json"},body:"null"
+  }).catch(function(){});
+  fetch(FB + "/custom.json", {
+    method:"PUT",headers:{"Content-Type":"application/json"},body:"null"
+  }).catch(function(){});
+}
+
+function reconnect() {
+  clearInterval(S.timer);
+  setConn("connecting");
+  fbPoll();
+  S.timer = setInterval(fbPoll, 4000);
+}
+
+function setConn(s) {
+  var dot=document.getElementById("cdot");
+  var lbl=document.getElementById("clbl");
+  var btn=document.getElementById("rbtn");
+  if (!dot) { return; }
+  if (s==="connected") {
+    dot.style.cssText="width:7px;height:7px;border-radius:50%;background:#7A8C6E;display:inline-block;flex-shrink:0";
+    lbl.textContent="即時同步中"; btn.style.display="none";
+  } else if (s==="error") {
+    dot.style.cssText="width:7px;height:7px;border-radius:50%;background:#B5714F;display:inline-block;flex-shrink:0";
+    lbl.textContent="連線失敗"; btn.style.display="inline-block";
+  } else {
+    dot.style.cssText="width:7px;height:7px;border-radius:50%;background:#A67C52;display:inline-block;flex-shrink:0";
+    lbl.textContent="連線中..."; btn.style.display="none";
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  ACTIONS
+// ════════════════════════════════════════════════════════════════
+function toggle(id) {
+  S.checked[id] = !S.checked[id];
+  fbSetChecked(id, S.checked[id]);
+  renderAll();
+}
+
+function startEdit(sid) {
+  S.editId = (S.editId===sid) ? null : sid;
+  renderAll();
+}
+
+function delTask(sid, tid) {
+  var tasks = getTasks(sid).filter(function(t){ return t.id!==tid; });
+  S.custom[sid] = tasks;
+  delete S.checked[tid];
+  fbSetTasks(sid);
+  fbSetChecked(tid, false);
+  renderAll();
+}
+
+function saveTaskText(sid, tid) {
+  var inp = document.getElementById("inp-"+tid);
+  if (!inp) { return; }
+  var val = inp.value.trim();
+  if (!val) { return; }
+  var tasks = getTasks(sid).map(function(t){
+    return t.id===tid ? {id:tid, text:val} : t;
+  });
+  S.custom[sid] = tasks;
+  fbSetTasks(sid);
+}
+
+function addTask(sid) {
+  var inp = document.getElementById("add-inp-"+sid);
+  if (!inp) { return; }
+  var val = inp.value.trim();
+  if (!val) { return; }
+  var tasks = getTasks(sid).slice();
+  tasks.push({id:newId(), text:val});
+  S.custom[sid] = tasks;
+  fbSetTasks(sid);
+  inp.value = "";
+  renderAll();
+}
+
+function clearAll() {
+  if (!confirm("確定要清除所有勾選記錄與自訂事項嗎？")) { return; }
+  S.checked={}; S.custom={}; S.editId=null;
+  fbClearAll();
+  renderAll();
+}
+
+function goTab(t) {
+  S.tab=t;
+  document.querySelectorAll(".tb").forEach(function(b,i){
+    b.classList.toggle("on",["stages","checklist","centers","costs"][i]===t);
+  });
+  document.querySelectorAll(".tp").forEach(function(p,i){
+    p.classList.toggle("on",["stages","checklist","centers","costs"][i]===t);
+  });
+  renderAll();
+}
+
+function selStage(i) { S.si=i; S.editId=null; renderAll(); }
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER HELPERS
+// ════════════════════════════════════════════════════════════════
+function chip(type) {
+  var m={gov:["#7A8C6E","健保給付"],must:["#B5714F","必要自費"],opt:["#A67C52","自費選配"]};
+  var p=m[type]||m.opt;
+  return '<span class="chip" style="background:'+p[0]+'22;color:'+p[0]+'">'+p[1]+'</span>';
+}
+
+// Checkbox visual only — no onclick (parent row handles it)
+function cbViz(taskId, accent) {
+  var done = !!S.checked[taskId];
+  var bg = done ? accent : "#fff";
+  var bc = done ? accent : "#D4C4B0";
+  var ck = done
+    ? '<svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    : "";
+  return '<div class="cb-box" style="background:'+bg+';border-color:'+bc+'">'+ck+'</div>';
+}
+
+function prBar(done,total,color,dark) {
+  var pct=total?Math.round(done/total*100):0;
+  var tr=dark?"rgba(255,255,255,.2)":"#EDE5D8";
+  var tc=dark?"rgba(255,255,255,.9)":(done===total&&total>0?color:"#7A5C3A");
+  var fw=(done===total&&total>0)?"bold":"normal";
+  return '<div class="pr">'+
+    '<div class="pt" style="background:'+tr+'">'+
+    '<div class="pfi" style="width:'+pct+'%;background:'+color+'"></div></div>'+
+    '<span class="pco" style="color:'+tc+';font-weight:'+fw+'">'+done+'/'+total+'</span></div>';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER PROGRESS
+// ════════════════════════════════════════════════════════════════
+function renderProg() {
+  var r=countAll();
+  var pct=r.t?(r.d/r.t*100):0;
+  document.getElementById("pf").style.width=pct+"%";
+  document.getElementById("pc").textContent=r.d+"/"+r.t;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER STAGES
+// ════════════════════════════════════════════════════════════════
+function renderStages() {
+  var panel=document.getElementById("tp-stages");
+  if (!panel) { return; }
+  var st=STAGES[S.si];
+  var tasks=getTasks(st.id);
+  var inEdit=(S.editId===st.id);
+  var stageDone=tasks.filter(function(t){ return S.checked[t.id]; }).length;
+
+  // Pills
+  var pills='<div id="pills">';
+  STAGES.forEach(function(s,i){
+    var ts=getTasks(s.id);
+    var act=(i===S.si);
+    var bc=act?s.accent:"#D4C4B0";
+    var bg=act?s.accent:"#fff";
+    var col=act?"#fff":"#7A5C3A";
+    var dots=ts.map(function(t){
+      var dc=S.checked[t.id]
+        ?(act?"rgba(255,255,255,.9)":s.accent)
+        :(act?"rgba(255,255,255,.3)":"#D4C4B0");
+      return '<i style="background:'+dc+'"></i>';
+    }).join("");
+    pills+='<button class="pl-btn" style="border-color:'+bc+';background:'+bg+';color:'+col+
+      '" onclick="selStage('+i+')">'+
+      '<span class="ic">'+s.icon+'</span><span>'+s.period+'</span>'+
+      '<span class="wk">'+s.weeks+'</span><div class="pdots">'+dots+'</div></button>';
+  });
+  pills+='</div>';
+
+  // Checks
+  var checks=st.checks.map(function(c){
+    return '<div class="ci">'+
+      '<span style="color:'+st.accent+';font-size:11px;margin-top:2px;flex-shrink:0">◆</span>'+
+      '<div><strong>'+c.item+'</strong><small>'+c.detail+'</small></div></div>';
+  }).join("");
+
+  // Shots
+  var shots=st.shots.map(function(s){
+    return '<div class="si"><div class="sn">'+s.name+'</div><div class="sk">'+s.note+'</div></div>';
+  }).join("");
+
+  // Costs
+  var costs=st.costs.map(function(c){
+    var ac=c.type==="gov"?"#7A8C6E":c.type==="must"?"#B5714F":"#A67C52";
+    return '<div class="ki"><div class="kl">'+c.label+chip(c.type)+'</div>'+
+      '<div class="ka" style="color:'+ac+'">'+c.amount+'</div></div>';
+  }).join("");
+
+  // Tasks
+  var taskHTML;
+  var eLabel=inEdit?"完成 ✓":"✏️ 編輯";
+  var eClass=inEdit?"edit-toggle on":"edit-toggle";
+
+  if (inEdit) {
+    // Edit mode: input fields + delete buttons
+    taskHTML=tasks.map(function(t){
+      var safe=t.text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+      return '<div class="tr-edit">'+
+        '<input class="t-input" id="inp-'+t.id+'" value="'+safe+'" '+
+          'onblur="saveTaskText(\''+st.id+'\',\''+t.id+'\')" '+
+          'onkeydown="if(event.key===\'Enter\'){this.blur();}"/>'+
+        '<button class="del-btn" '+
+          'onclick="event.stopPropagation();delTask(\''+st.id+'\',\''+t.id+'\')">✕</button>'+
+        '</div>';
+    }).join("")+
+    '<div class="add-row">'+
+    '<input class="add-inp" id="add-inp-'+st.id+'" placeholder="輸入新待辦事項..." '+
+      'onkeydown="if(event.key===\'Enter\'){event.preventDefault();addTask(\''+st.id+'\');}"/>'+
+    '<button class="add-btn" onclick="addTask(\''+st.id+'\')">新增</button></div>';
+  } else {
+    // Normal mode: tappable rows, checkbox visual only
+    taskHTML=tasks.map(function(t){
+      var done=!!S.checked[t.id];
+      var bg=done?st.accentL+"66":"transparent";
+      var td=done?"line-through":"none";
+      var tc=done?"#7A5C3A":"#3D2B1F";
+      var dl=done?'<span class="dl" style="color:'+st.accent+'">完成</span>':"";
+      return '<div class="tr" style="background:'+bg+'" onclick="toggle(\''+t.id+'\')">'+
+        cbViz(t.id,st.accent)+
+        '<span class="tt" style="text-decoration:'+td+';color:'+tc+'">'+t.text+'</span>'+
+        dl+'</div>';
+    }).join("");
+  }
+
+  panel.innerHTML=pills+
+    '<div class="card">'+
+    '<div class="sh" style="background:'+st.accent+'">'+
+    '<div class="sh-row">'+
+    '<div><h2>'+st.period+'</h2><div class="sub">'+st.weeks+'</div></div>'+
+    '<div class="pmini"><div class="pml">先生待辦</div>'+
+    prBar(stageDone,tasks.length,"rgba(255,255,255,.9)",true)+'</div></div></div>'+
+
+    '<div class="sec" style="background:'+st.accentL+'">'+
+    '<div class="sec-t">必要檢查項目</div><div class="sec-b">'+checks+'</div></div>'+
+    '<div class="dvd"></div>'+
+
+    '<div class="sec"><div class="sec-t">疫苗 / 注射</div><div class="sec-b">'+shots+'</div></div>'+
+    '<div class="dvd"></div>'+
+
+    '<div class="sec" style="background:#F2E8D8">'+
+    '<div class="sec-t">費用項目</div><div class="sec-b">'+costs+'</div></div>'+
+    '<div class="dvd"></div>'+
+
+    '<div class="sec" style="background:#EDE5D8">'+
+    '<div class="sec-t">先生待辦事項'+
+    ' <button class="'+eClass+'" onclick="startEdit(\''+st.id+'\')">'+eLabel+'</button></div>'+
+    taskHTML+'</div>'+
+
+    '<div class="note-bar">💡 '+st.note+'</div>'+
+    '</div>';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER CHECKLIST
+// ════════════════════════════════════════════════════════════════
+function renderChecklist() {
+  var panel=document.getElementById("tp-checklist");
+  if (!panel||!panel.classList.contains("on")) { return; }
+  var r=countAll();
+  var pct=r.t?r.d/r.t*100:0;
+  var nc=(r.d===r.t&&r.t>0)?"#7A8C6E":"#fff";
+  var adm=(r.d===r.t&&r.t>0)?'<span style="font-size:13px;color:#7A8C6E">全部完成！🎉</span>':"";
+
+  var groups=STAGES.map(function(s){
+    var tasks=getTasks(s.id);
+    var done=tasks.filter(function(t){ return S.checked[t.id]; }).length;
+    var all=done===tasks.length&&tasks.length>0;
+    var hBg=all?"#EDE5D8":s.accent;
+    var tc=all?"#7A5C3A":"#fff";
+    var sc=all?"#7A5C3A":"rgba(255,255,255,.75)";
+    var db=all?'<span class="g-db">✓ 全部完成</span>':"";
+    var rows=tasks.map(function(t){
+      var done2=!!S.checked[t.id];
+      var rb=done2?s.accentL+"55":"transparent";
+      var td=done2?"line-through":"none";
+      var tco=done2?"#7A5C3A":"#3D2B1F";
+      var dl=done2?'<span style="font-size:10px;color:'+s.accent+';font-weight:bold;flex-shrink:0;margin-top:3px">完成</span>':"";
+      return '<div class="clt" style="background:'+rb+'" onclick="toggle(\''+t.id+'\')">'+
+        cbViz(t.id,s.accent)+
+        '<span class="tt" style="text-decoration:'+td+';color:'+tco+'">'+t.text+'</span>'+
+        dl+'</div>';
+    }).join("");
+    return '<div class="sg">'+
+      '<div class="gh" style="background:'+hBg+'">'+
+      '<div class="gh-row">'+
+      '<div class="g-info"><span class="g-ic">'+s.icon+'</span>'+
+      '<div><div class="g-nm" style="color:'+tc+'">'+s.period+db+'</div>'+
+      '<div class="g-wk" style="color:'+sc+'">'+s.weeks+'</div></div></div>'+
+      '<div style="min-width:90px">'+
+      prBar(done,tasks.length,all?"#7A8C6E":"rgba(255,255,255,.9)",!all)+'</div>'+
+      '</div></div>'+
+      '<div class="gt">'+rows+'</div></div>';
+  }).join("");
+
+  var dotColor=document.getElementById("cdot").style.background||"#A67C52";
+  var dotLbl=document.getElementById("clbl").textContent||"";
+  var miniConn='<div style="display:inline-flex;align-items:center;gap:5px;'+
+    'background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px">'+
+    '<span style="width:7px;height:7px;border-radius:50%;background:'+dotColor+
+    ';display:inline-block"></span>'+
+    '<span style="font-size:10px;color:rgba(255,255,255,.85)">'+dotLbl+'</span></div>';
+
+  var clearBt=r.d>0?'<button class="clear-btn" onclick="clearAll()">清除所有記錄</button>':"";
+
+  panel.innerHTML='<div id="cl-wrap">'+
+    '<div class="sum">'+
+    '<div class="sum-top">'+
+    '<div><div style="font-size:15px;font-weight:bold">先生待辦清單</div>'+
+    '<div style="font-size:11px;color:var(--tan);margin-top:2px">兩人即時同步 · Firebase 儲存</div></div>'+
+    '<div><div class="sum-num" style="color:'+nc+'">'+r.d+'</div>'+
+    '<div class="sum-of">/ '+r.t+' 完成</div></div></div>'+
+    '<div class="big-pg"><div class="big-pf" style="width:'+pct+'%"></div></div>'+
+    '<div class="sum-ft">'+miniConn+adm+'</div></div>'+
+    groups+clearBt+'</div>';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER CENTERS
+// ════════════════════════════════════════════════════════════════
+function renderCenters() {
+  var panel=document.getElementById("tp-centers");
+  if (!panel) { return; }
+  var centers=[
+    {name:"必樂芙",sub:"產後護理之家",color:"#B5714F",colorL:"#F0DDD4",
+     addr:"台中市西屯區烈美街268號（逢甲夜市旁，面文修公園）",tel:"04-2451-6898",
+     daily:"約 $6,000–7,200 / 天",
+     est:"20天 約$120,000–144,000 ｜ 25天 約$150,000–180,000",
+     rooms:[{n:"A房型（頂級）",p:"洽詢"},{n:"B房型（主推）",p:"$6,000–7,000/天"},{n:"C房型",p:"$5,800–6,800/天"}],
+     pros:["獨棟獨立，安全管控嚴格，訪客與住戶電梯分離","月子餐三家廠商可選，可告知飲食禁忌","入住贈孕婦寫真或新生兒寫真","館內專屬芳療師 SPA，每週洗頭服務","中醫師/西醫師/小兒科醫師皆可看診","停車位可租，$1,500/月；2F兒童遊戲室，大寶友善"],
+     cons:["無廚房，依合作廠商供餐","薑水/大風草需自費（每桶$200）","人氣高，建議提早預訂"],
+     suitable:"重視環境質感、有大寶同住需求、享受SPA體驗"},
+    {name:"林新",sub:"產後護理之家",color:"#6B8FA8",colorL:"#DDE8F0",
+     addr:"台中市南屯區惠中路三段36號（林新醫院院內）",tel:"04-2258-6688",
+     daily:"約 $4,500–10,700 / 天（視房型）",
+     est:"20天 約$90,000–214,000 ｜ 25天 約$112,500–267,500",
+     rooms:[{n:"精緻套房（入門）",p:"約 $4,500–5,000/天"},{n:"經典套房（8–9坪）",p:"$7,800（25天折後約$5,500）"},{n:"豪華/尊榮套房",p:"洽詢（最高$10,700）"}],
+     pros:["醫院附設，黃疸照光最方便","每日六餐，中西醫營養師共同研發","每週一次中醫師把脈健診","課程完整：婦兒科/中醫/護理師授課","院內停車場，入住免費"],
+     cons:["無彌月寫真等娛樂性服務","訪客限制較嚴：僅直系親屬","WIFI共用院內，較不穩定","餐點偏傳統清淡"],
+     suitable:"第一胎新手、重視醫療安全、有黃疸疑慮、偏好傳統調養"}
+  ];
+
+  var html='<div id="ct-wrap"><h2>月子中心比較（入住 20–25 天）</h2>'+
+    '<p style="font-size:11px;color:var(--soft);text-align:center;margin:4px 0 14px">費用均為參考估算，實際以各中心最新報價為準</p>';
+
+  centers.forEach(function(c){
+    var rooms=c.rooms.map(function(r){
+      return '<div class="rm"><span style="font-size:13px;font-weight:bold">'+r.n+'</span>'+
+        '<span style="font-size:12px;font-weight:bold;color:'+c.color+'">'+r.p+'</span></div>';
+    }).join("");
+    var pros=c.pros.map(function(p){return '<div style="font-size:12px;padding:3px 0;line-height:1.6">✓ '+p+'</div>';}).join("");
+    var cons=c.cons.map(function(p){return '<div style="font-size:12px;padding:3px 0;line-height:1.6;color:var(--soft)">· '+p+'</div>';}).join("");
+    html+='<div class="cc">'+
+      '<div class="ch" style="background:'+c.color+'">'+
+      '<div class="cn">'+c.name+'<span class="cs">'+c.sub+'</span></div>'+
+      '<div class="ca">📍 '+c.addr+'</div>'+
+      '<span class="ctag">📞 '+c.tel+'</span></div>'+
+      '<div class="ce" style="background:'+c.colorL+'">'+
+      '<div style="display:flex;justify-content:space-between">'+
+      '<span style="font-size:12px;color:var(--soft)">每日費用</span>'+
+      '<span style="font-size:13px;font-weight:bold;color:'+c.color+'">'+c.daily+'</span></div>'+
+      '<div style="font-size:11px;color:var(--soft);margin-top:3px">'+c.est+'</div></div>'+
+      '<div class="sec"><div class="sec-t">房型與費用</div><div class="sec-b">'+rooms+'</div></div>'+
+      '<div class="sec" style="background:'+c.colorL+'"><div class="sec-t">優點</div><div class="sec-b">'+pros+'</div></div>'+
+      '<div class="sec"><div class="sec-t">注意事項</div><div class="sec-b">'+cons+'</div></div>'+
+      '<div class="sbox" style="background:'+c.color+'18;color:'+c.color+'">適合族群：'+c.suitable+'</div>'+
+      '</div>';
+  });
+
+  html+='<div class="vs"><h3>怎麼選？</h3><div class="vs-g">'+
+    '<div class="vs-c" style="background:#F0DDD4">'+
+    '<div style="font-weight:bold;font-size:13px;color:#B5714F;margin-bottom:7px">選必樂芙</div>'+
+    ['重視環境質感與飯店感','有大寶需要同住','喜歡多元餐點選擇','享受SPA芳療','爸爸每天想來陪']
+    .map(function(t){return '<div style="font-size:11px;color:var(--soft);line-height:1.7">· '+t+'</div>';}).join("")+
+    '</div><div class="vs-c" style="background:#DDE8F0">'+
+    '<div style="font-weight:bold;font-size:13px;color:#6B8FA8;margin-bottom:7px">選林新</div>'+
+    ['第一胎新手重視醫療','擔心寶寶黃疸','偏好傳統調養餐','課程學習需求高','停車方便省費用']
+    .map(function(t){return '<div style="font-size:11px;color:var(--soft);line-height:1.7">· '+t+'</div>';}).join("")+
+    '</div></div></div></div>';
+
+  panel.innerHTML=html;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER COSTS
+// ════════════════════════════════════════════════════════════════
+function renderCosts() {
+  var panel=document.getElementById("tp-costs");
+  if (!panel||!panel.classList.contains("on")) { return; }
+  var maxH=0;
+  COSTS_DATA.forEach(function(c){ if(c.hi>maxH){maxH=c.hi;} });
+  var tMin=COSTS_DATA.reduce(function(s,c){return s+c.lo;},0);
+  var tMax=COSTS_DATA.reduce(function(s,c){return s+c.hi;},0);
+
+  var rows=COSTS_DATA.map(function(c,i){
+    var pct=Math.round(c.hi/maxH*100);
+    var bg=i%2===0?"#fff":"#F5F0EB";
+    return '<div class="cr" style="background:'+bg+'">'+
+      '<div class="cr-in">'+
+      '<div><div style="font-size:13px;font-weight:bold;margin-bottom:2px">'+c.cat+'</div>'+
+      '<div style="font-size:11px;color:var(--soft)">'+c.note+'</div></div>'+
+      '<div style="text-align:right;flex-shrink:0">'+
+      '<div style="font-size:11px;color:var(--terra)">$'+c.lo.toLocaleString()+'–</div>'+
+      '<div style="font-size:12px;font-weight:bold;color:var(--terra)">$'+c.hi.toLocaleString()+'</div></div></div>'+
+      '<div class="cr-bar"><div class="cr-bf" style="width:'+pct+'%"></div></div></div>';
+  }).join("");
+
+  panel.innerHTML='<div id="co-wrap"><h2>費用總覽</h2>'+
+    '<div class="tot">'+
+    '<div style="font-size:12px;color:var(--tan);margin-bottom:5px">懷孕到月子期 · 總費用預估範圍</div>'+
+    '<div style="font-size:24px;font-weight:bold">$'+tMin.toLocaleString()+' – $'+tMax.toLocaleString()+'</div>'+
+    '<div style="font-size:11px;color:var(--tan);margin-top:4px">不含日常孕期日用品與育嬰備品長期開銷</div></div>'+
+    '<div class="cl">'+rows+
+    '<div class="tot-row">'+
+    '<span style="font-weight:bold;font-size:14px">合計（參考範圍）</span>'+
+    '<span style="font-size:15px;font-weight:bold;color:var(--terra)">$'+tMin.toLocaleString()+' – $'+tMax.toLocaleString()+'</span></div></div>'+
+    '<div class="fin"><h4>先生財務分擔建議</h4>'+
+    ['從備孕期開始每月存入「寶寶基金」$10,000 以上',
+     '主動查詢勞保/健保生育補助，最高可補助約 $42,000',
+     '善用公司陪產假/育嬰假，了解政府補貼資源',
+     '月子中心費用不是媽媽一人的事，主動承擔是責任',
+     '產後報稅：自然產所有醫療單據均可申報']
+    .map(function(t){return '<div class="ft"><span style="color:var(--terra);font-weight:bold;flex-shrink:0">✓</span><span>'+t+'</span></div>';}).join("")+
+    '</div></div>';
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER ALL
+// ════════════════════════════════════════════════════════════════
+function renderAll() {
+  renderProg();
+  renderStages();
+  renderChecklist();
+  renderCosts();
+}
+
+// ════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════
+setConn("connecting");
+renderCenters();
+renderAll();
+fbPoll();
+S.timer=setInterval(fbPoll,4000);
+</script>
+</body>
+</html>
